@@ -31,11 +31,14 @@ const Light = {
 }
 
 
+
+
+
 const App = () => {
 
   const colorScheme = useColorScheme();
 
-  console.log("colorScheme", colorScheme);
+  
   const flatRef = useRef(null);
   const [enteredtext, setEnteredText] = React.useState('');
   const [goals, setGoals] = React.useState([]);
@@ -44,7 +47,8 @@ const App = () => {
   function addTodo() {
     setGoals([ ...goals, {
       id: Math.random().toString(),
-      value: enteredtext
+      value: enteredtext,
+      createdAt: new Date(),
     }]);
     flatRef.current.scrollToEnd();
     setEnteredText('');
@@ -62,6 +66,7 @@ const App = () => {
       setOnActive={setOnActive}
       index={index}
       deleteItem={() => deleteHandler(item)}
+      createdAt={item.createdAt}
     />
   ), [onActive, setOnActive]);
 

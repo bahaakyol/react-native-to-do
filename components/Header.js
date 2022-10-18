@@ -5,10 +5,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useTheme } from 'react-native-paper';
 const screenHeight = Dimensions.get('window').height;
 
-const Header = ({ title, text, setText, addToDo }) => {
+const Header = ({ title, text, setText, addToDo  }) => {
     const theme = useTheme();
 
-    console.log("theme", theme);
+    
     return (
         <View style={{...styles.container, backgroundColor: theme.colors.background, borderBottomColor: theme.colors.border}}>
             <Text style={{...styles.headerText, color: theme.colors.text }}>{title}</Text>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: screenHeight / 6,
-        borderBottomWidth: 1,
+        
     },
 
     addContainer: {
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     addText: {
         color: 'blue',
         fontWeight: '500',
+
     },
 
     iconContainer: {
@@ -60,6 +61,7 @@ const styles = StyleSheet.create({
 
     inputContainer: {
         justifyContent: 'center',
+        
     },
 
     headerText: {
@@ -75,5 +77,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#c2c2c250',
         borderRadius: 20,
         paddingLeft: '10%',
+        paddingRight: '13%',
     }
 })
