@@ -7,7 +7,7 @@ import { useTheme } from 'react-native-paper';
 
 const SWIPE_WIDTH = 60;
 
-const Item = ({ label, active, setOnActive, index, deleteItem, createdAt }) => {
+const Item = ({ label, active, setOnActive, index, deleteItem, createdAt, markCompleted , completed}) => {
 
     const theme = useTheme();
     const translateX = useSharedValue(-300);
@@ -41,8 +41,17 @@ const Item = ({ label, active, setOnActive, index, deleteItem, createdAt }) => {
     const CompletedHandler = () => {
         Alert.alert("Completed Item? ",
             "Your goal will be deleted",
-            [{ text: "OK", style: "default", onPress: deleteItem, }
-                , { text: "Cancel", onPress: () => { closeTab() } }
+            [{ text: "OK", style: "default", onPress: ()=> {
+                markCompleted();
+                closeTab();
+                deleteItem();
+            }, }
+                , {
+                    text: "Cancel", onPress: () => {
+                        closeTab();
+                        markCompleted();
+                    }
+            }
             ]);
 
     }
@@ -75,7 +84,7 @@ const Item = ({ label, active, setOnActive, index, deleteItem, createdAt }) => {
             if (translateX.value < -SWIPE_WIDTH / 2) {
                 openTabRight();
             }
-            else if (translateX.value > SWIPE_WIDTH / 2 + 4) {
+            else if (!completed && translateX.value > SWIPE_WIDTH / 2 + 4) {
                 openTabLeft();
             }
             else {
@@ -87,16 +96,16 @@ const Item = ({ label, active, setOnActive, index, deleteItem, createdAt }) => {
 
     return (
         <View>
-            <PanGestureHandler   activeOffsetX={[-1,1]} onGestureEvent={onGestureEvent}>
+            <PanGestureHandler activeOffsetX={[-1, 1]} onGestureEvent={onGestureEvent}>
                 <Animated.View style={[styles.container, animatedStyle, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
                     <Text style={styles.hourStyle}>
                         {[createdAt.getHours(), ":", createdAt.
                             getMinutes().toString().length === 1 ? ("0" + createdAt.getMinutes()) : createdAt.getMinutes()].join(" ")}</Text>
-                    <Text 
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
-                    style={{ ...styles.labelStyle, color: theme.colors.text }}>{label}</Text>
-                    <Text style={ styles.dateStyle }>{createdAt.toLocaleDateString()}</Text>
+                    <Text
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                        style={{ ...styles.labelStyle, color: theme.colors.text }}>{label}</Text>
+                    <Text style={styles.dateStyle}>{createdAt.toLocaleDateString()}</Text>
                 </Animated.View>
             </PanGestureHandler>
             <View style={styles.leftSwipeContainer}>
@@ -107,14 +116,14 @@ const Item = ({ label, active, setOnActive, index, deleteItem, createdAt }) => {
                 </Pressable>
 
             </View>
-            <View style={styles.rightSwipeContainer}>
+            {!completed && <View style={styles.rightSwipeContainer}>
                 <Pressable
                     onPress={CompletedHandler}
                 >
                     <MaterialCommunityIcons name="check" size={30} color="#fff" />
                 </Pressable>
 
-            </View>
+            </View> } 
         </View>
     )
 }
@@ -152,8 +161,8 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         fontWeight: 'bold',
         maxWidth: '60%',
-        textAlign: 'left', 
-        left:'10%',
+        textAlign: 'left',
+        left: '10%',
     },
 
     rightSwipeContainer: {

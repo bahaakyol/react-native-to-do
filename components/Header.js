@@ -1,13 +1,14 @@
 import { StyleSheet, TextInput, Dimensions, Text, View, Pressable } from 'react-native'
 import React from 'react'
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useTheme } from 'react-native-paper';
 const screenHeight = Dimensions.get('window').height;
 
-const Header = ({ title, text, setText, addToDo  }) => {
+const Header = ({ title, text, setText, addToDo, search }) => {
     const theme = useTheme();
-
+    const placeholder = search ? "Search" : "Add a new goal";
     
     return (
         <View style={{...styles.container, backgroundColor: theme.colors.background, borderBottomColor: theme.colors.border}}>
@@ -17,13 +18,13 @@ const Header = ({ title, text, setText, addToDo  }) => {
                     value={text}
                     onChangeText={text => setText(text)}
                     style={{...styles.input, color: theme.colors.text}}
-                    placeholder='Enter goal'
+                    placeholder={placeholder}
                     placeholderTextColor={'grey'}
                 />
                 <View style={styles.iconContainer}>
-                    <EvilIcons name="plus" size={35} color="grey" />
+                    {search ? <MaterialCommunityIcons name="magnify" size={35} color="grey" /> : <EvilIcons name="plus" size={35} color="grey" />}
                 </View>
-                {text.length > 0 && <View style={styles.addContainer}>
+                {!search && text.length > 0 && <View style={styles.addContainer}>
                     <TouchableOpacity onPress={addToDo}>
                         <Text style={{...styles.addText, color: theme.colors.primary}}>Add</Text>
                     </TouchableOpacity>
