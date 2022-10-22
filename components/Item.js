@@ -7,7 +7,7 @@ import { useTheme } from 'react-native-paper';
 
 const SWIPE_WIDTH = 60;
 
-const Item = ({ label, active, setOnActive, index, deleteItem, createdAt, markCompleted , completed}) => {
+const Item = ({ label, active, setOnActive, index, deleteItem, createdAt, markCompleted, completed }) => {
 
     const theme = useTheme();
     const translateX = useSharedValue(-300);
@@ -41,16 +41,16 @@ const Item = ({ label, active, setOnActive, index, deleteItem, createdAt, markCo
     const CompletedHandler = () => {
         Alert.alert("Completed Item? ",
             "Your goal will be deleted",
-            [{ text: "OK", style: "default", onPress: ()=> {
-                markCompleted();
-                closeTab();
-                deleteItem();
-            }, }
+            [{
+                text: "OK", style: "default", onPress: () => {
+                    markCompleted();
+                    closeTab();
+                },
+            }
                 , {
-                    text: "Cancel", onPress: () => {
-                        closeTab();
-                        markCompleted();
-                    }
+                text: "Cancel", onPress: () => {
+                    closeTab();                    
+                }
             }
             ]);
 
@@ -99,13 +99,13 @@ const Item = ({ label, active, setOnActive, index, deleteItem, createdAt, markCo
             <PanGestureHandler activeOffsetX={[-1, 1]} onGestureEvent={onGestureEvent}>
                 <Animated.View style={[styles.container, animatedStyle, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
                     <Text style={styles.hourStyle}>
-                        {[createdAt.getHours(), ":", createdAt.
-                            getMinutes().toString().length === 1 ? ("0" + createdAt.getMinutes()) : createdAt.getMinutes()].join(" ")}</Text>
+                        {[new Date(createdAt).getHours(), ":", new Date(createdAt).
+                            getMinutes().toString().length === 1 ? ("0" + new Date(createdAt).getMinutes()) : new Date(createdAt).getMinutes()].join(" ")}</Text>
                     <Text
                         numberOfLines={1}
                         ellipsizeMode="tail"
                         style={{ ...styles.labelStyle, color: theme.colors.text }}>{label}</Text>
-                    <Text style={styles.dateStyle}>{createdAt.toLocaleDateString()}</Text>
+                    <Text style={styles.dateStyle}>{new Date(createdAt).toLocaleDateString()}</Text>
                 </Animated.View>
             </PanGestureHandler>
             <View style={styles.leftSwipeContainer}>
@@ -123,7 +123,7 @@ const Item = ({ label, active, setOnActive, index, deleteItem, createdAt, markCo
                     <MaterialCommunityIcons name="check" size={30} color="#fff" />
                 </Pressable>
 
-            </View> } 
+            </View>}
         </View>
     )
 }

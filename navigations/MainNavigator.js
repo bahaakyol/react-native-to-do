@@ -33,7 +33,7 @@ export default function MainNavigator(props) {
                         );
                     },
                 })}>
-                <Tab.Screen name="ToDo" children={() => <ToDo goals={goals} setGoals={setGoals} setCompleted={setCompleted}/>} />
+                <Tab.Screen name="ToDo" children={() => <ToDo goals={goals} setGoals={setGoals} completed={completed} setCompleted={setCompleted}/>} />
                 <Tab.Screen name="Completed" children={() => <Completed completed={completed} setCompleted={setCompleted} />} />
             </Tab.Navigator>
         </NavigationContainer>

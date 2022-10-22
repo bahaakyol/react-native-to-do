@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
         padding: '5%',
         fontSize: 30,
         fontWeight: 'bold',
+        textAlign: 'center',
     },
 
     input: {
